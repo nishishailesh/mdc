@@ -1,2 +1,1 @@
-# mdc
-Discharge Record for Hospitals
+#Medical Discharge Record Utility
