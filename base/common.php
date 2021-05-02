@@ -75,9 +75,9 @@ function get_link($u,$p)
 	return $link;
 }
 
-function get_remote_link($ip,$u,$p)
+function get_remote_link($ip,$u,$p,$port='3306')
 {
-	$link=mysqli_connect($ip,$u,$p);
+	$link=mysqli_connect($ip,$u,$p,'',$port);
 	if(!$link)
 	{
 		echo 'error1:'.mysqli_error($link); 

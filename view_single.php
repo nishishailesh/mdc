@@ -18,5 +18,5 @@ tail();
 //echo '<pre>';print_r($_POST);echo '</pre>';
 
 //////////////Functions///////////////////////
-
+  fetch_lab_report($link,$_POST['sample_id']);
 ?>

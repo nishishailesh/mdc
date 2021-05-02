@@ -1121,4 +1121,41 @@ function get_sample_with_condition($link,$exid,$ex_result,$sid_array=array(),$fi
 	return $ret;
 }
 
+function fetch_lab_report($link,$sample_id)
+{
+	echo 'fetching lab report';
+
+	$mdc_sql='select * from result where sample_id=\''.$sample_id.'\' and examination_id=1';
+        $mdc_results=run_query($link,$GLOBALS['database'],$mdc_sql);
+        $mdc_ar=get_single_row($mdc_results);
+        echo '<pre>';
+	print_r($mdc_ar);
+
+
+	$ip=$GLOBALS['readonly_cl_general_host'];
+	$port=$GLOBALS['readonly_cl_general_port'];
+	$u=$GLOBALS['readonly_cl_general_user'];
+	$p=$GLOBALS['readonly_cl_general_pass'];
+	$rlink=get_remote_link($ip,$u,$p,$port='33066');
+
+	$result=run_query($rlink,'cl_general',
+		'select * from result where result=\''.$mdc_ar['result'].'\' and examination_id=1001');
+
+	while($ar=get_single_row($result))
+	{
+		print_r($ar);
+	
+
+$result=run_query($rlink,'cl_general',
+                 'select sample_id,e.examination_id,name,result  
+			from result r, examination e 
+			where e.examination_id=r.examination_id and sample_id=\''.$ar['sample_id'].'\'');
+         
+        while($ar=get_single_row($result))
+         {
+                 print_r($ar);
+         }
+	}
+
+}
 ?>
