@@ -1,5 +1,5 @@
 <?php
-$GLOBALS['main_user_location']='/var/gmcs_config/staff.conf';
+$GLOBALS['main_user_location']='/var/db.config';
 $GLOBALS['user_database']='mdc';
 $GLOBALS['user_table']='user';
 $GLOBALS['user_id']='user';
@@ -10,6 +10,8 @@ $GLOBALS['application_name']='Clinical Records NCHS';
 
 $GLOBALS['database']='mdc';
 $GLOBALS['mrd']=1;
+
+$GLOBALS['auto_lab_report']='no';
 
 $GLOBALS['advice']='
 		<ul>

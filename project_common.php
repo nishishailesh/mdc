@@ -8,6 +8,7 @@ function main_menu()
 	<div id=main_menu class="dropdown btn-group m-0 p-0">
 			<input type=hidden name=session_name value=\''.session_name().'\'>
 			<button class="btn btn-primary border-danger m-0 p-0" formaction=new_general.php type=submit name=action value=new_general>New</button>
+			<button class="btn btn-primary border-danger m-0 p-0" formaction=copy.php type=submit name=action value=copy>Copy</button>
 			<button class="btn btn-primary border-danger m-0 p-0" formaction=view_database_id.php type=submit name=action value=get_dbid>View DbID</button>			
 			<button class="btn btn-primary border-danger m-0 p-0" formaction=search.php type=submit name=action value=get_search_condition>Search</button>			
 			<button class="btn btn-primary border-danger m-0 p-0" formaction=report.php type=submit name=action value=get_search_condition>Export</button>			
@@ -158,7 +159,7 @@ function view_sample($link,$sample_id)
 	//print_r($profile_wise_ex_list);
 	//echo '</pre>';
 	echo '<div class="basic_form">
-			<div class=my_label >Database ID:'.$sample_id.'</div>
+			<div class=my_label ><h3>Database ID:'.$sample_id.'</h3></div>
 			<div>';
 				sample_id_edit_button($sample_id);
 				sample_id_view_button($sample_id);
@@ -235,7 +236,7 @@ function view_sample_no_profile($link,$sample_id)
 		//print_r($ar);
 		$examination_details=get_one_examination_details($link,$ar['examination_id']);
 		$edit_specification=json_decode($examination_details['edit_specification']);
-		$h=isset($edit_specification->{'help'})?($edit_specification->{'help'}):'No help';
+		$h=isset($edit_specification->{'help'})?($edit_specification->{'help'}):'';
 		//print_r($edit_specification);
 		//print_r($examination_details);
 		echo '	<div class="my_label border border-dark text-wrap">'.$examination_details['name'].'</div>
@@ -425,7 +426,7 @@ function delete_examination($link,$sample_id,$examination_id)
 		$sql='DELETE FROM `result`
           WHERE `sample_id` = \''.$sample_id.'\' AND `examination_id` = \''.$examination_id.'\'';
 	    }
-		$result=run_query($link,'dc_general',$sql);
+		$result=run_query($link,$GLOBALS['database'],$sql);
 		//echo $sql;
 		if($result==false)
 			{
@@ -446,7 +447,7 @@ function edit_field($link,$examination_id,$result_array,$sample_id,$readonly='')
 	if(!$edit_specification){$edit_specification=array();}
 	
 	$type=isset($edit_specification['type'])?$edit_specification['type']:'text';
-	$help=isset($edit_specification['help'])?$edit_specification['help']:'No help';
+	$help=isset($edit_specification['help'])?$edit_specification['help']:'';
 	$pattern=isset($edit_specification['pattern'])?$edit_specification['pattern']:'';
 	$placeholder=isset($edit_specification['placeholder'])?$edit_specification['placeholder']:'';
 	
@@ -565,7 +566,7 @@ function view_field($link,$ex_id,$ex_result)
 {
 		$examination_details=get_one_examination_details($link,$ex_id);
 		$edit_specification=json_decode($examination_details['edit_specification'],true);
-		$help=isset($edit_specification['help'])?$edit_specification['help']:'No help';
+		$help=isset($edit_specification['help'])?$edit_specification['help']:'';
 				echo '<div class="basic_form " id="ex_'.$ex_id.'">';
 		echo '	<div class="my_label border border-dark text-wrap"><b>'.$examination_details['name'].'</b></div>
 				<div class="border border-dark"><pre class="m-0 p-0 border-0">'.htmlspecialchars($ex_result).'</pre></div>
@@ -893,6 +894,7 @@ function save_insert($link)
 	
 	return $sample_id;
 }
+
 function add_new_examination_and_profile($link,$sample_id,$list_of_selected_examination='',$list_of_selected_profile='')
 {
 	
@@ -951,11 +953,12 @@ function set_lable($session_name,$sample_id,$examination_details,$examination_id
 			</div>';
 	
 }
-function get_new_sample_id($link,$mrd)
+function get_new_sample_id($link,$mrdd)
 {
 	$sample_id=find_next_sample_id($link);
 	$sql='insert into result (sample_id,examination_id,result,recording_time,recorded_by)
-			values (\''.$sample_id.'\', \'1\',\''.$mrd.'\',now(),\''.$_SESSION['login'].'\')';
+			values (\''.$sample_id.'\', \'1\',\''.$mrdd.'\',now(),\''.$_SESSION['login'].'\')';
+	//echo $sql;
 	if(!run_query($link,$GLOBALS['database'],$sql))
 		{echo 'Data not inserted(with)<br>'; return false;}
 	else
@@ -971,6 +974,21 @@ function find_next_sample_id($link)
 	$results=run_query($link,$GLOBALS['database'],$sqls);
 	$ars=get_single_row($results);
 	return $ars['next_sample_id'];
+}
+
+function insert_one_examination_with_result($link,$sample_id,$examination_id,$result)
+{
+	$sql='insert into result (sample_id,examination_id,result)
+			values ("'.$sample_id.'","'.$examination_id.'","'.$result.'")';
+			
+	//echo $sql.'(with)<br>';
+	if(!run_query($link,$GLOBALS['database'],$sql))
+	{
+		//echo $sql.'(with)<br>';
+		echo 'Data not inserted(with)<br>'; 
+		return false;
+	}	
+	else{return true;}
 }
 
 function insert_one_examination_without_result($link,$sample_id,$examination_id)
@@ -1123,6 +1141,9 @@ function get_sample_with_condition($link,$exid,$ex_result,$sid_array=array(),$fi
 
 function fetch_lab_report($link,$sample_id)
 {
+	$glr=isset($GLOBALS['auto_lab_report'])?$GLOBALS['auto_lab_report']:'no';
+	if($glr!='yes'){return;}
+	
 	echo 'fetching lab report';
 
 	$mdc_sql='select * from result where sample_id=\''.$sample_id.'\' and examination_id=1';
@@ -1158,4 +1179,7 @@ $result=run_query($rlink,'cl_general',
 	}
 
 }
+
+
+
 ?>
