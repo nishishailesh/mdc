@@ -159,11 +159,11 @@ function view_sample($link,$sample_id)
 	//print_r($profile_wise_ex_list);
 	//echo '</pre>';
 	echo '<div class="basic_form">
-			<div class=my_label ><h3>Database ID:'.$sample_id.'</h3></div>
 			<div>';
 				sample_id_edit_button($sample_id);
 				sample_id_view_button($sample_id);
 			echo '</div>
+			<div class=my_label ><h3>Database ID:'.$sample_id.'</h3></div>
 			<div class=help>Unique Number to get this data</div>';
 	echo '</div>';		
 	foreach($profile_wise_ex_list as $kp=>$vp)

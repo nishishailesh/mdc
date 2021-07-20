@@ -64,6 +64,22 @@ CREATE TABLE `examination.bak` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `examination_before_2021-07-20`
+--
+
+DROP TABLE IF EXISTS `examination_before_2021-07-20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `examination_before_2021-07-20` (
+  `examination_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `description` varchar(300) COLLATE utf8_bin DEFAULT NULL,
+  `edit_specification` varchar(1000) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`examination_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1006 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `profile`
 --
 
@@ -71,6 +87,22 @@ DROP TABLE IF EXISTS `profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `profile` (
+  `profile_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `examination_id_list` varchar(500) NOT NULL,
+  `class` varchar(30) NOT NULL,
+  PRIMARY KEY (`profile_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `profile_before_2021_07-20`
+--
+
+DROP TABLE IF EXISTS `profile_before_2021_07-20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `profile_before_2021_07-20` (
   `profile_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `examination_id_list` varchar(500) NOT NULL,
@@ -92,7 +124,7 @@ CREATE TABLE `report` (
   `examination_id` varchar(1000) DEFAULT NULL,
   `header` varchar(400) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,4 +190,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-20  2:41:44
+-- Dump completed on 2021-07-20 17:45:29
