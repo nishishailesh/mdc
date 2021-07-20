@@ -34,13 +34,14 @@ tail();
 
 function get_copy_data()
 {
+	$YY=strftime("%y");
 	echo '<form method=post>';
 	echo '<div class="basic_form">';
 		echo '	<label class="my_label text-danger" for="mrd">From Database ID</label>
-				<input type=number size=13 name=from_dbid class="form-control text-danger" required="required" \>
+				<input id=from_dbid type=number size=13 name=from_dbid class="form-control text-danger" required="required" \>
 				<p class="help"><span class=text-danger>Write Database ID from which records are to be copied</span></p>
 				<label class="my_label text-danger" for="to_mrd">To new MRD</label>
-				<input name=to_mrd type=text class="form-control text-danger"  required="required"\>
+				<input value="SUR/'.$YY.'/" name=to_mrd type=text class="form-control text-danger"  required="required"\>
 				<p class="help"><span class=text-danger>Write MRD number of new record</p>';
 	echo '</div>';
 	echo '<button type=submit class="btn btn-primary form-control" name=action value=copy_dbid>Copy</button>';
@@ -66,16 +67,17 @@ function copyy($link,$from_dbid,$to_mrd)
 
 function list_prototype($link)
 {
-	echo '<h3>Avilable Prototypes</h3>';
+	echo '<div class=jumbotron><h3>Avilable Prototypes</h3>';
         $sql='select * from result where examination_id=\'2\' and result like \'DUMMY-%\' ';
         $result=run_query($link,$GLOBALS['database'],$sql);
 	echo '<table class="table table-striped table-sm">';
+	echo '<tr><th colspan="2">Click on orange button to select prototype</th></tr>';
 	echo '<tr><th>Prototype ID</th><th>Prototype Name</th></tr>';
 	while($ar=get_single_row($result))
 	{
 		echo '<tr>';
 			echo '<td>';
-			echo $ar['sample_id'];
+			echo '<button class="btn btn-sm btn-warning" type=button onclick="sync_with_that(this,\'from_dbid\')" value=\''.$ar['sample_id'].'\'>'.$ar['sample_id'].'</button> ';
 			echo '</td>';
 			echo '<td>';
 			echo $ar['result'];
@@ -84,7 +86,7 @@ function list_prototype($link)
 		//echo '<pre>';
 		//print_r($ar);
 	}
-	echo '</table>';
+	echo '</table></div>';
 
 }
 

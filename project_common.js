@@ -17,6 +17,16 @@ function select_examination_js(me,ex_id,list_id)
 	}
 }
 
+
+function sync_with_that(me,that_element_id)
+{
+	//alert(me.getAttribute('data-type'));
+	target=document.getElementById(that_element_id);
+	target.value=me.value
+	var event = new Event('change');
+	target.dispatchEvent(event);
+}
+
 function select_profile_js(me,ex_id,list_id)
 {
 	if(selected_profile.indexOf(ex_id) !== -1)
