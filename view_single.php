@@ -11,6 +11,7 @@ main_menu();
 echo '<div id=response></div>';
 	//echo_class_button($link,'MedicineDC')	;
 	view_sample($link,$_POST['sample_id']);
+    //fetch_lab_report($link,$_POST['sample_id']);
 
 //////////////user code ends////////////////
 tail();
@@ -18,5 +19,4 @@ tail();
 //echo '<pre>';print_r($_POST);echo '</pre>';
 
 //////////////Functions///////////////////////
-  fetch_lab_report($link,$_POST['sample_id']);
 ?>

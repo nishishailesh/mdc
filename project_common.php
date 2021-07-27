@@ -212,6 +212,9 @@ function view_sample($link,$sample_id)
 				</div>';
 				
 	}
+	
+    fetch_lab_report($link,$sample_id);
+
 	echo '<br><footer></footer>';	
 }
 
@@ -1144,37 +1147,54 @@ function fetch_lab_report($link,$sample_id)
 	$glr=isset($GLOBALS['auto_lab_report'])?$GLOBALS['auto_lab_report']:'no';
 	if($glr!='yes'){return;}
 	
-	echo 'fetching lab report';
+	//echo 'fetching lab report';
+	echo '<h4>Biochemistry Lab Reports</h4>';
 
 	$mdc_sql='select * from result where sample_id=\''.$sample_id.'\' and examination_id=1';
         $mdc_results=run_query($link,$GLOBALS['database'],$mdc_sql);
         $mdc_ar=get_single_row($mdc_results);
-        echo '<pre>';
-	print_r($mdc_ar);
+       // echo '<pre>';
+	//print_r($mdc_ar);
 
 
 	$ip=$GLOBALS['readonly_cl_general_host'];
 	$port=$GLOBALS['readonly_cl_general_port'];
 	$u=$GLOBALS['readonly_cl_general_user'];
 	$p=$GLOBALS['readonly_cl_general_pass'];
-	$rlink=get_remote_link($ip,$u,$p,$port='33066');
+	$rlink=get_remote_link($ip,$u,$p,$port='3306');
 
 	$result=run_query($rlink,'cl_general',
 		'select * from result where result=\''.$mdc_ar['result'].'\' and examination_id=1001');
 
 	while($ar=get_single_row($result))
 	{
-		print_r($ar);
-	
+		//print_r($ar);
+		
+			$r_received_on=run_query($rlink,'cl_general',
+		'select * from result where sample_id=\''.$ar['sample_id'].'\' and examination_id=1017');
+			$ar_received_on=get_single_row($r_received_on);
 
-$result=run_query($rlink,'cl_general',
-                 'select sample_id,e.examination_id,name,result  
-			from result r, examination e 
-			where e.examination_id=r.examination_id and sample_id=\''.$ar['sample_id'].'\'');
-         
-        while($ar=get_single_row($result))
+			$r_receipt_time=run_query($rlink,'cl_general',
+		'select * from result where sample_id=\''.$ar['sample_id'].'\' and examination_id=1018');
+			$ar_receipt_time=get_single_row($r_receipt_time);			
+
+			$r_sr=run_query($rlink,'cl_general',
+		'select * from result where sample_id=\''.$ar['sample_id'].'\' and examination_id=1000');
+			$ar_sr=get_single_row($r_sr);
+						
+		$resultt=run_query($rlink,'cl_general',
+                 'select sample_id,e.examination_id,name,result,sample_requirement 
+					from result r, examination e 
+					where 
+						sample_requirement!=\'None\' and
+						e.examination_id=r.examination_id
+						and 
+						sample_id=\''.$ar['sample_id'].'\'');
+        echo '<br>sample_id:'. $ar['sample_id'].'('.$ar_received_on['result'].':'.$ar_receipt_time['result'].':'.$ar_sr['result'].')<br>';
+        while($arr=get_single_row($resultt))
          {
-                 print_r($ar);
+                 //print_r($arr);
+                 echo $arr['name'].':'.$arr['result'].',  ';
          }
 	}
 
