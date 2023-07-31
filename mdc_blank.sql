@@ -1,8 +1,8 @@
--- MySQL dump 10.18  Distrib 10.3.27-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.5.11-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: 127.0.0.1    Database: mdc
 -- ------------------------------------------------------
--- Server version	10.3.27-MariaDB-0+deb10u1
+-- Server version	10.5.11-MariaDB-1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,7 @@ CREATE TABLE `examination` (
   `description` varchar(300) COLLATE utf8_bin DEFAULT NULL,
   `edit_specification` varchar(1000) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`examination_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100002 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=100003 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,6 +64,22 @@ CREATE TABLE `examination.bak` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `examination_before_2021-07-20`
+--
+
+DROP TABLE IF EXISTS `examination_before_2021-07-20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `examination_before_2021-07-20` (
+  `examination_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `description` varchar(300) COLLATE utf8_bin DEFAULT NULL,
+  `edit_specification` varchar(1000) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`examination_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1006 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `profile`
 --
 
@@ -71,6 +87,22 @@ DROP TABLE IF EXISTS `profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `profile` (
+  `profile_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `examination_id_list` varchar(500) NOT NULL,
+  `class` varchar(30) NOT NULL,
+  PRIMARY KEY (`profile_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `profile_before_2021_07-20`
+--
+
+DROP TABLE IF EXISTS `profile_before_2021_07-20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `profile_before_2021_07-20` (
   `profile_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `examination_id_list` varchar(500) NOT NULL,
@@ -92,7 +124,7 @@ CREATE TABLE `report` (
   `examination_id` varchar(1000) DEFAULT NULL,
   `header` varchar(400) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,6 +177,7 @@ CREATE TABLE `user` (
   `name` varchar(100) NOT NULL,
   `password` varchar(1000) NOT NULL,
   `expirydate` date NOT NULL,
+  `authorization` varchar(1000) NOT NULL,
   PRIMARY KEY (`user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -158,4 +191,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-28  0:14:19
+-- Dump completed on 2023-07-31 23:41:49

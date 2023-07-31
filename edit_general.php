@@ -8,6 +8,14 @@ echo '		  <link rel="stylesheet" href="project_common.css">
 $link=get_link($GLOBALS['main_user'],$GLOBALS['main_pass']);
 
 main_menu();
+
+$user_info=get_user_info($link,$_SESSION['login']);
+//print_r($user_info);
+$authorization=explode(',',$user_info['authorization']);
+//print_r($authorization);
+if(in_array('readonly',$authorization)){echo 'Excess denied';exit(0);}
+
+
 echo '<div id=response></div>';
 if($_POST['action']=='edit_general')
 {

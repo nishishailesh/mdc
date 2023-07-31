@@ -19,7 +19,7 @@ if($_POST['action']=='get_dbid')
 }
 elseif($_POST['action']=='view_dbid')
 {
-	echo_class_button($link,'MedicineDC')	;
+	//echo_class_button($link,'MedicineDC')	;
 	view_sample($link,$_POST['sample_id']);
 }
 

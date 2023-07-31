@@ -23,6 +23,24 @@ function main_menu()
 		</form>
 	';		
 }
+/*
+$GLOBALS['user_database']='mdc';
+$GLOBALS['user_table']='user';
+$GLOBALS['user_id']='user';
+$GLOBALS['user_pass']='password';
+$GLOBALS['expiry_period']='+ 6 months';
+$GLOBALS['expirydate_field']='expirydate';
+
+*/
+
+
+
+function get_user_info($link,$user)
+{
+	$sql='select * from user where user=\''.$user.'\'';
+	$result=run_query($link,$GLOBALS['database'],$sql);
+	return get_single_row($result);
+}
 
 
 function mk_select_from_array($name, $select_array,$disabled='',$default='')
@@ -1043,6 +1061,8 @@ function echo_class_button($link,$classs)
 	$sql='select * from report where report_name=\''.$classs.'\'';
 	$result=run_query($link,$GLOBALS['database'],$sql);
 	$ar=get_single_row($result);
+	if($ar==null){return;}
+	if($ar==false){return;}
 	$ex_list=explode(',',$ar['examination_id']);
 	$jarray=json_encode($ex_list);
 	//echo $jarray;
@@ -1161,7 +1181,7 @@ function fetch_lab_report($link,$sample_id)
 	$port=$GLOBALS['readonly_cl_general_port'];
 	$u=$GLOBALS['readonly_cl_general_user'];
 	$p=$GLOBALS['readonly_cl_general_pass'];
-	$rlink=get_remote_link($ip,$u,$p,$port='3306');
+	$rlink=get_remote_link($ip,$u,$p,$port);
 
 	$result=run_query($rlink,'cl_general',
 		'select * from result where result=\''.$mdc_ar['result'].'\' and examination_id=1001');
@@ -1181,16 +1201,19 @@ function fetch_lab_report($link,$sample_id)
 			$r_sr=run_query($rlink,'cl_general',
 		'select * from result where sample_id=\''.$ar['sample_id'].'\' and examination_id=1000');
 			$ar_sr=get_single_row($r_sr);
-						
+
 		$resultt=run_query($rlink,'cl_general',
                  'select sample_id,e.examination_id,name,result,sample_requirement 
-					from result r, examination e 
-					where 
+					from result r, examination e
+					where
 						sample_requirement!=\'None\' and
 						e.examination_id=r.examination_id
-						and 
+						and
 						sample_id=\''.$ar['sample_id'].'\'');
-        echo '<br>sample_id:'. $ar['sample_id'].'('.$ar_received_on['result'].':'.$ar_receipt_time['result'].':'.$ar_sr['result'].')<br>';
+	
+        //echo '<br>sample_id:'. $ar['sample_id'].'('.$ar_received_on['result'].':'.$ar_receipt_time['result'].':'.$ar_sr['result'].')<br>';
+        echo '<br>sample_id:'. $ar['sample_id'];
+
         while($arr=get_single_row($resultt))
          {
                  //print_r($arr);

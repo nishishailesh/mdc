@@ -11,7 +11,8 @@ $GLOBALS['application_name']='Clinical Records NCHS';
 $GLOBALS['database']='mdc';
 $GLOBALS['mrd']=1;
 
-$GLOBALS['auto_lab_report']='yes';
+//$GLOBALS['auto_lab_report']='yes';
+$GLOBALS['auto_lab_report']='no';
 
 $GLOBALS['advice']='
 		<ul>
