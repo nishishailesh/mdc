@@ -64,7 +64,7 @@ function copyy($link,$from_dbid,$to_mrd)
 	$sample_id=get_new_sample_id($link,$to_mrd);
 	foreach( $result_array as $k=>$v )
 	{
-		if($k<100000 && $k>1)
+		if($k<100000 && $k>2)
 		{
 			insert_one_examination_with_result($link,$sample_id,$k,my_safe_string($link,$v));
 		}
@@ -75,7 +75,7 @@ function copyy($link,$from_dbid,$to_mrd)
 
 function list_prototype($link)
 {
-	echo '<div class=jumbotron><h3>Avilable Prototypes</h3>';
+	echo '<div class=jumbotron><h3>Available Prototypes</h3>';
         $sql='select * from result where examination_id=\'2\' and result like \'DUMMY-%\' ';
         $result=run_query($link,$GLOBALS['database'],$sql);
 	echo '<table class="table table-striped table-sm">';

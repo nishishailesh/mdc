@@ -12,6 +12,7 @@ function main_menu()
 			<button class="btn btn-primary border-danger m-0 p-0" formaction=view_database_id.php type=submit name=action value=get_dbid>View DbID</button>			
 			<button class="btn btn-primary border-danger m-0 p-0" formaction=search.php type=submit name=action value=get_search_condition>Search</button>			
 			<button class="btn btn-primary border-danger m-0 p-0" formaction=report.php type=submit name=action value=get_search_condition>Export</button>			
+			<button class="btn btn-warning border-primary m-0 p-0" formaction=help.php formtarget=_blank type=submit name=action value=get_search_condition>Help</button>			
 			<!--
 			<button class="btn btn-primary dropdown-toggle m-0 p-0" type="button" data-toggle="dropdown">New</button>
 			<div class="dropdown-menu m-0 p-0">		
